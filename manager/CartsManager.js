@@ -6,7 +6,7 @@ export default class CartsManager {
 
 	constructor(fileName) {
 		this.#carts = [];
-		this.#path = `${fileName}.json`;
+		this.#path = `./data/${fileName}.json`;
 	};
 
 	getCarts() {

@@ -6,7 +6,7 @@ export default class ProductsManager {
 
 	constructor(fileName) {
 		this.#products = [];
-		this.#path = `${fileName}.json`;
+		this.#path = `./data/${fileName}.json`;
 	};
 
 	getProducts() {

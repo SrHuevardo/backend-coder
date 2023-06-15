@@ -1,0 +1,48 @@
+body {
+	font-family: 'Ubuntu Condensed', sans-serif;
+	background-color: black;
+}
+
+/*-------------- Home -----------------*/
+
+.homeContainer, .realTimeContainer {
+	display: flex;
+	flex-flow: column;
+	text-align: center;
+	background-color: rgb(178, 95, 226);
+	border-radius: 30px;
+	width: 600px;
+	padding: 10px;
+	margin: auto;
+}
+
+.homeTitle, .realTimeTitle {
+	font-size: 48px;
+}
+
+.homeList, .realTimeList {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+}
+
+.homeItem, .realTimeItem {
+	font-size: 32px;
+	border-bottom: solid 2px black;
+	height: 70px;
+	width: 500px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/*----------- Socket ---------------*/
+.realTimeContainer {
+
+	background-color: rgb(38, 230, 38);
+
+}
+
+
