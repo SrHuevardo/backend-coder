@@ -10,7 +10,7 @@ views.get("/", (req, res) => {
 	res.render("home", {
 		style: "styles.css",
 		documentTitle: "Home",
-		products
+		products,
 	});
 });
 
@@ -19,6 +19,14 @@ views.get("/realtimeproducts", (req, res) => {
 	res.render("realTimeProducts", {
 		style: "styles.css",
 		documentTitle: "Socket",
+	});
+});
+
+// Endpoint para renderizar chat con socket:
+views.get("/chat", (req, res) => {
+	res.render("chat", {
+		style: "styles.css",
+		documentTitle: "Chat",
 	});
 });
 

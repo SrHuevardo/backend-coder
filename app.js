@@ -1,13 +1,28 @@
 import express from 'express';
-import productsRouter from './routes/productRoutes.js';
-import cartsRouter from './routes/cartRoutes.js';
+import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/carts.router.js';
 
+const host = "0.0.0.0";
 const app = express();
-const PORT = 8080;
+const port = 8080;
 
+// Rutas
+import productsRoute from "./routes/products.router.js";
+import cartsRoute from "./routes/carts.router.js";
 import viewsRoute from "./routes/views.router.js";
-import products from "./data/products.json" assert { type: "json" };
 import { Server } from "socket.io";
+
+// Data
+import products from "./data/products.json" assert { type: "json" };
+
+
+// Mongoose
+import mongoose from "mongoose";
+import { messageModel } from "./dao/mongo/models/messages.model.js";
+mongoose.connect(
+	"mongodb+srv://nicolasfsacco:ecommerce@cluster0.8gwzuq1.mongodb.net/?retryWrites=true&w=majority"
+);
+
 
 // Handlebars
 import handlebars from "express-handlebars";
@@ -24,27 +39,45 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Rutas de productos
-app.use('/api/products', productsRouter);
+app.use('/api/products', productsRoute);
 
 // Rutas de carritos
-app.use('/api/carts', cartsRouter);
+app.use('/api/carts', cartsRoute);
 
 // Rutas de vistas
 app.use("/", viewsRoute);
 
 // Server en 8080
-const httpServer = app.listen(PORT, () => {
-	console.log(`server funcionando en el puerto ${PORT}`);
+const httpServer = app.listen(port, host, () => {
+	console.log(`Server listening on http://${host}:${port}`);
 });
 // Server io
 const io = new Server(httpServer);
-io.on("connection", (socket) => {
-	console.log("Cliente nuevo conectado");
+const messages = [];
 
-	// Enviar productos
+io.on("connection", (socket) => {
+	console.log("New client connected");
+
 	socket.emit("products", products);
 
+	// Chat
+	io.emit("messagesLogs", messages);
+	
+	socket.on("user", (data) => {
+		messages.push(data);
+		io.emit("messagesLogs", messages);
+	});
+
+	socket.on("message", (data) => {
+		messages.push(data);
+		io.emit("messagesLogs", messages);
+		messageModel.create({
+			user: data.user,
+			message: data.message,
+		});
+	});
+
 	socket.on("disconnect", () => {
-		console.log("Cliente nuevo desconectado");
+		console.log("Client disconnected");
 	});
 });
