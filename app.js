@@ -10,6 +10,9 @@ const port = 8080;
 import productsRoute from "./routes/products.router.js";
 import cartsRoute from "./routes/carts.router.js";
 import viewsRoute from "./routes/views.router.js";
+import messagesRoute from "./routes/messages.router.js";
+import cookiesRoute from "./routes/cookies.router.js";
+import sessionsRoute from "./routes/sessions.router.js";
 import { Server } from "socket.io";
 
 // Data
@@ -19,6 +22,7 @@ import products from "./data/products.json" assert { type: "json" };
 // Mongoose
 import mongoose from "mongoose";
 import { messageModel } from "./dao/mongo/models/messages.model.js";
+import { productModel } from "./dao/mongo/models/product.model.js";
 mongoose.connect(
 	"mongodb+srv://nicolasfsacco:ecommerce@cluster0.8gwzuq1.mongodb.net/?retryWrites=true&w=majority"
 );
@@ -47,37 +51,53 @@ app.use('/api/carts', cartsRoute);
 // Rutas de vistas
 app.use("/", viewsRoute);
 
+app.use("/cookies", cookiesRoute);
+
+app.use("/sessions", sessionsRoute);
+
+app.use("/messages", messagesRoute);
+
 // Server en 8080
 const httpServer = app.listen(port, host, () => {
-	console.log(`Server listening on http://${host}:${port}`);
+	console.log(`Server up on http://${host}:${port}`);
 });
-// Server io
+
 const io = new Server(httpServer);
-const messages = [];
 
-io.on("connection", (socket) => {
-	console.log("New client connected");
+io.on("connection", async socket => {
+	console.log(`Client ${socket.id} connected`);
 
-	socket.emit("products", products);
+	// Buscar productos en DB, escuchar cambios y enviar data:
+	const products = await productModel.find().lean();
+	io.emit("products", products);
 
-	// Chat
-	io.emit("messagesLogs", messages);
-	
-	socket.on("user", (data) => {
-		messages.push(data);
-		io.emit("messagesLogs", messages);
+	productModel.watch().on("change", async change => {
+		const products = await productModel.find().lean();
+		io.emit("products", products);
 	});
 
-	socket.on("message", (data) => {
-		messages.push(data);
-		io.emit("messagesLogs", messages);
-		messageModel.create({
+	// Recibir usuarios, mensajes y crear entrada en DB:
+	socket.on("user", async data => {
+		await messageModel.create({
 			user: data.user,
 			message: data.message,
 		});
+
+		const messagesDB = await messageModel.find();
+		io.emit("messagesDB", messagesDB);
+	});
+
+	socket.on("message", async data => {
+		await messageModel.create({
+			user: data.user,
+			message: data.message,
+		});
+
+		const messagesDB = await messageModel.find();
+		io.emit("messagesDB", messagesDB);
 	});
 
 	socket.on("disconnect", () => {
-		console.log("Client disconnected");
+		console.log(`Client ${socket.id} disconnected`);
 	});
 });

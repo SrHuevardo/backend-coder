@@ -3,7 +3,7 @@ import { productModel } from "../dao/mongo/models/product.model.js";
 
 const products = Router();
 
-// Endpoint para obtener todos los productos:    localhost:8080/api/products/
+// Endpoint para obtener todos los productos:
 products.get("/", async (req, res) => {
 	try {
 		const result = await productModel.find();
@@ -13,7 +13,7 @@ products.get("/", async (req, res) => {
 	};
 });
 
-// Endpoint para obtener un producto según ID:  localhost:8080/api/products/64b08d71d7eb2e234d4af1be
+// Endpoint para obtener un producto según ID:
 products.get("/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -29,7 +29,7 @@ products.get("/:id", async (req, res) => {
 	};
 });
 
-// Endpoint para agregar un producto:  localhost:8080/api/products
+// Endpoint para agregar un producto:
 products.post("/", async (req, res) => {
 	try {
 		const { title, description, code, price, stock, category } = req.body;
@@ -49,10 +49,10 @@ products.post("/", async (req, res) => {
 		const result = await productModel.create({
 			title,
 			description,
-			code,
+			code: code.replace(/\s/g, "").toLowerCase(),
 			price,
 			stock,
-			category,
+			category: category.toLowerCase(),
 		});
 
 		return res.status(200).json({ status: "success", payload: result });
@@ -61,7 +61,7 @@ products.post("/", async (req, res) => {
 	};
 });
 
-// Endpoint para actualizar un producto según ID:  localhost:8080/api/products/64b08d71d7eb2e234d4af1be
+// Endpoint para actualizar un producto según ID:
 products.put("/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -87,10 +87,10 @@ products.put("/:id", async (req, res) => {
 		const newproduct = {
 			title,
 			description,
-			code,
+			code: code.replace(/\s/g, "").toLowerCase(),
 			price,
 			stock,
-			category,
+			category: category.toLowerCase(),
 		};
 		await productModel.updateOne({ _id: id }, newproduct);
 
@@ -101,7 +101,7 @@ products.put("/:id", async (req, res) => {
 	};
 });
 
-// Endpoint para borrar un producto según ID: localhost:8080/api/products/64b08d71d7eb2e234d4af1be
+// Endpoint para borrar un producto según ID:
 products.delete("/:id", async (req, res) => {
 	try {
 		const { id } = req.params;

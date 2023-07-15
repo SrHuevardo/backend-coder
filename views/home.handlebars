@@ -1,11 +1,28 @@
-<div class="homeContainer">
-    
-	<h1 class="homeTitle">Products</h1>
-	<ul class="homeList">
-		{{#each products}}
+<div class="home-container">
+	<h1 class="home-title">Products</h1>
 
-			<li class="homeItem">{{this.title}}</li>
+	<div class="home-list">
+		{{#each payload}}
+		<div class="home-item">
+			<p class="home-text">Product: {{this.title}}</p>
+			<p class="home-text">Category: {{this.category}}</p>
+			<p class="home-text">Price: ${{this.price}}</p>
+			<p class="home-text">Stock: {{this.stock}}</p>
 
+		</div>
 		{{/each}}
-	</ul>
+	</div>
+
+	<div class="paginate-container">
+	{{#if hasPrevPage}}
+		<a href="/?query={{query}}&limit={{limit}}&page={{prevPage}}"><button class="paginate-button">Previus</button></a>
+	{{/if}}
+
+	<p class="paginate-current">{{page}}</p>
+
+	{{#if hasNextPage}}
+		<a href="/?query={{query}}&limit={{limit}}&page={{nextPage}}"><button class="paginate-button">Next</button></a>
+	{{/if}}
+	</div>
+	
 </div>
