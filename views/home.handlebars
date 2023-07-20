@@ -1,28 +1,12 @@
 <div class="home-container">
-	<h1 class="home-title">Products</h1>
+	<h1 class="home-title">Home</h1>
+	<p>{{user.first_name}}</p>
+	<p>{{user.email}}</p>
 
-	<div class="home-list">
-		{{#each payload}}
-		<div class="home-item">
-			<p class="home-text">Product: {{this.title}}</p>
-			<p class="home-text">Category: {{this.category}}</p>
-			<p class="home-text">Price: ${{this.price}}</p>
-			<p class="home-text">Stock: {{this.stock}}</p>
-
-		</div>
-		{{/each}}
-	</div>
-
-	<div class="paginate-container">
-	{{#if hasPrevPage}}
-		<a href="/?query={{query}}&limit={{limit}}&page={{prevPage}}"><button class="paginate-button">Previus</button></a>
-	{{/if}}
-
-	<p class="paginate-current">{{page}}</p>
-
-	{{#if hasNextPage}}
-		<a href="/?query={{query}}&limit={{limit}}&page={{nextPage}}"><button class="paginate-button">Next</button></a>
-	{{/if}}
-	</div>
-	
+	<ul class="home-list">
+		<li class="home-item"> <a href="./products">Products</a></li>
+		<li class="home-item"> <a href="./realTimeProducts">Real time products</a></li>
+		<li class="home-item"> <a href="./chat">Chat</a></li>
+		<li class="home-item"> <a href="./carts/">Carts (has to add the cart id)</a></li>
+	</ul>
 </div>

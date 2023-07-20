@@ -44,7 +44,7 @@ carts.post("/", async (req, res) => {
 });
 
 // Endpoint para agregar un producto a un carrito segun IDs:
-carts.post("/:cid/product/:pid", async (req, res) => {
+carts.get("/:cid/product/:pid", async (req, res) => {
 	try {
 		const { cid, pid } = req.params;
 		const newProduct = await productModel.findById(pid);
@@ -81,9 +81,42 @@ carts.post("/:cid/product/:pid", async (req, res) => {
 // Endpoint para actualizar un carrito según ID con un arreglo de productos:
 carts.put("/:cid", async (req, res) => {
 	try {
+		const { cid } = req.params;
+		let newCart = req.body;
+		const cart = await cartModel.findById(cid);
 
-		// Lógic
+		// Iterar por cada producto
+		newCart.forEach( async product => {
+			// Validar si la cantidad es correcta, sino corregirla a 1:
+			if (product.quantity < 1) {
+				console.log(`Invalid value ${product.quantity} for quantity, new value was setted on 1`);
+				product.quantity = 1
+			};
 
+			// Validar si el producto existe y el stock es suficiente:
+			const existProduct = await productModel.findById(product._id);
+			if(existProduct && existProduct.stock > product.quantity) {
+				// Validar si el producto existe en el carrito:
+				const productInCart = cart.products.find(productInCart => productInCart.id === existProduct.id);
+
+				// Si no existe, crearlo:
+				if (!productInCart) {
+					const create = {
+						$push: { products: { _id: existProduct.id, quantity: product.quantity } },
+					};
+					await cartModel.findByIdAndUpdate({ _id: cid }, create);
+				};
+
+				// Si existe, actualizar la cantidad:
+				await cartModel.findByIdAndUpdate(
+					{ _id: cid },
+					{ $set: { "products.$[elem].quantity": product.quantity } },
+					{ arrayFilters: [{ "elem._id": existProduct.id }] }
+				);
+			};
+		});
+
+		const result = await cartModel.findById(cid);
 		return res.status(200).json({ status: "success", payload: result });
 	} catch (err) {
 		return res.status(500).json({ error: err.message });
@@ -91,11 +124,25 @@ carts.put("/:cid", async (req, res) => {
 });
 
 // Endpoint para actualizar la cantidad de un producto dentro de un carrito según IDs:
-carts.put("/:cid/products/:pid", async (req, res) => {
+carts.put("/:cid/product/:pid", async (req, res) => {
 	try {
+		const { cid, pid } = req.params;
+		let newQuantity = req.body.quantity;
+		const product = await productModel.findById(pid);
 
-		// Lógic
+		// Validar stock disponible y setear nueva cantidad en max:
+		if(newQuantity > product.stock) {
+			console.log(`Insufficient stock ${newQuantity} for product ${product._id}, max ${product.stock}`);
+			newQuantity = product.stock;
+		}
+		// Validar si el producto existe en el carrito y actualizar la cantidad:
+		await cartModel.findByIdAndUpdate(
+			{ _id: cid },
+			{ $set: { "products.$[elem].quantity": newQuantity } },
+			{ arrayFilters: [{ "elem._id": pid }] }
+		);
 
+		const result = await cartModel.findById(cid);
 		return res.status(200).json({ status: "success", payload: result });
 	} catch (err) {
 		return res.status(500).json({ error: err.message });

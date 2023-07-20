@@ -50,6 +50,47 @@ body {
 	color: white;
 }
 
+.products-container {
+	display: flex;
+	flex-flow: column nowrap;
+	text-align: center;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 10px;
+	width: 100vw;
+	height: 100vh;
+	padding: 20px;
+	margin: auto;
+}
+
+.products-title {
+	font-size: 40px;
+	text-decoration: underline;
+	font-weight: "bold";
+	padding-top: 30px;
+}
+
+.products-list {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	gap: 100px;
+	margin-inline: 200px;
+}
+
+.products-item {
+	border-radius: 10px;
+	background-color: black;
+	padding: 20px;
+}
+
+.products-text {
+	margin: 12px;
+	font-size: 22px;
+	color: white;
+	font-weight: "bold";
+}
+
 .paginate-container {
 	width: 400px;
 	display: flex;

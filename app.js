@@ -21,11 +21,28 @@ import products from "./data/products.json" assert { type: "json" };
 
 // Mongoose
 import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
+import session from 'express-session'; 
 import { messageModel } from "./dao/mongo/models/messages.model.js";
 import { productModel } from "./dao/mongo/models/product.model.js";
-mongoose.connect(
-	"mongodb+srv://nicolasfsacco:ecommerce@cluster0.8gwzuq1.mongodb.net/?retryWrites=true&w=majority"
-);
+const mongoUrl = "mongodb+srv://nicolasfsacco:ecommerce@cluster0.8gwzuq1.mongodb.net/?retryWrites=true&w=majority";
+const enviroment = async () => {await mongoose.connect(mongoUrl)};
+enviroment();
+app.use(session({
+	store: MongoStore.create({mongoUrl}),
+	secret: "asd3ñc3okasod",
+	resave: false,
+	saveUninitialized: false,
+}));
+
+//Passport
+import passport from "passport";
+import initializePassport from './config/passport.config.js';
+initializePassport(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 
 // Handlebars
@@ -50,12 +67,12 @@ app.use('/api/carts', cartsRoute);
 
 // Rutas de vistas
 app.use("/", viewsRoute);
-
-app.use("/cookies", cookiesRoute);
-
-app.use("/sessions", sessionsRoute);
-
-app.use("/messages", messagesRoute);
+//Rutas de cookies
+app.use("/api/cookies", cookiesRoute);
+//Rutas de sesiones
+app.use("/api/sessions", sessionsRoute);
+//Rutas de mensajes
+app.use("/api/messages", messagesRoute);
 
 // Server en 8080
 const httpServer = app.listen(port, host, () => {
@@ -101,3 +118,7 @@ io.on("connection", async socket => {
 		console.log(`Client ${socket.id} disconnected`);
 	});
 });
+// inicio sesion login
+
+// admin
+// adminCod3r123 
