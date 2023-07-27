@@ -1,7 +1,13 @@
 <div class="home-container">
 	<h1 class="home-title">Home</h1>
-	<p>{{user.first_name}}</p>
-	<p>{{user.email}}</p>
+	<form
+		method="post"
+		action="/api/sessions/logout"
+	>
+		<p>Welcome {{user.email}}</p>
+		<p>Role: {{user.role}}</p>
+		<input type="submit" value="Logout">
+	</form>
 
 	<ul class="home-list">
 		<li class="home-item"> <a href="./products">Products</a></li>

@@ -1,6 +1,6 @@
 import express from 'express';
-import productsRouter from './routes/products.router.js';
-import cartsRouter from './routes/carts.router.js';
+// import productsRouter from './routes/products.router.js';
+// import cartsRouter from './routes/carts.router.js';
 
 const host = "0.0.0.0";
 const app = express();
@@ -16,7 +16,7 @@ import sessionsRoute from "./routes/sessions.router.js";
 import { Server } from "socket.io";
 
 // Data
-import products from "./data/products.json" assert { type: "json" };
+// import products from "./data/products.json" assert { type: "json" };
 
 
 // Mongoose
@@ -55,23 +55,20 @@ app.use(express.static(__dirname + "/public"));
 
 
 
-// Middleware para analizar el cuerpo de las solicitudes como JSON
+// Middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Rutas de productos
 app.use('/api/products', productsRoute);
 
-// Rutas de carritos
 app.use('/api/carts', cartsRoute);
 
-// Rutas de vistas
 app.use("/", viewsRoute);
-//Rutas de cookies
+
 app.use("/api/cookies", cookiesRoute);
-//Rutas de sesiones
+
 app.use("/api/sessions", sessionsRoute);
-//Rutas de mensajes
+
 app.use("/api/messages", messagesRoute);
 
 // Server en 8080
@@ -118,6 +115,9 @@ io.on("connection", async socket => {
 		console.log(`Client ${socket.id} disconnected`);
 	});
 });
+
+
+
 // inicio sesion login
 
 // admin

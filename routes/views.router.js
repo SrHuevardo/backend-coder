@@ -8,7 +8,7 @@ import { cartModel } from "../dao/mongo/models/cart.model.js";
 
 // Cookie parser
 import cookieParser from "cookie-parser";
-views.use(cookieParser("Bv@pU^W6HY79"));
+views.use(cookieParser("CoderS3cR3tC0D3"));
 
 // Función para validar y crear un carrito para el usuario:
 async function cartCookie(req, res) {
