@@ -6,9 +6,16 @@ const views = Router();
 import { productModel } from "../dao/mongo/models/product.model.js";
 import { cartModel } from "../dao/mongo/models/cart.model.js";
 
+// JWT
+import { authToken } from "../utils/jwt.utils.js";
+
+// Env
+import config from '../config.js'
+const cookieSecret = config.COOKIE_SECRET;
+
 // Cookie parser
 import cookieParser from "cookie-parser";
-views.use(cookieParser("CoderS3cR3tC0D3"));
+views.use(cookieParser(cookieSecret));
 
 // Función para validar y crear un carrito para el usuario:
 async function cartCookie(req, res) {
@@ -148,6 +155,7 @@ views.get("/products", async (req, res) => {
 			return res.status(200).render("products", {
 				status: "success",
 				payload: filteredProducts.data,
+				user: req.session.user,
 				page,
 				limit,
 				query,
@@ -166,6 +174,7 @@ views.get("/products", async (req, res) => {
 		return res.status(200).render("products", {
 			status: "success",
 			payload: products.data,
+			user: req.session.user,
 			page,
 			limit,
 			query,
@@ -265,6 +274,11 @@ views.get("/carts/:cid", async (req, res) => {
 	} catch (err) {
 		return res.status(500).json({ error: err.message });
 	};
+});
+
+// Test token
+views.get("/private", authToken, (req, res) => {
+	res.send({status: "Private", user: req.user})
 });
 
 export default views;

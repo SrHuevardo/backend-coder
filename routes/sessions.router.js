@@ -20,6 +20,22 @@ sessions.post("/login", passport.authenticate('login'), async (req, res) => {
 	};
 });
 
+// Endpoint para loguearse con jwt:
+sessions.post('/loginjwt', passport.authenticate('jwt'), async (req, res) => {
+	try {
+		req.session.user = {
+			first_name: req.user.first_name,
+			last_name: req.user.last_name,
+			email: req.user.email,
+			role: req.user.role,
+		};
+		const access_token = generateToken(user);
+		return res.status(200).send({ status: 'success', token: access_token });
+	} catch (err) {
+		return res.status(500).json({ error: err.message });
+	}
+});
+
 // Endpoint para registrarse:
 sessions.post("/register", passport.authenticate("register"), async (req, res) => {
 	try {
@@ -33,6 +49,22 @@ sessions.post("/register", passport.authenticate("register"), async (req, res) =
 	} catch (err) {
 		return res.status(500).json({ status: 'error', response: err.message });
 	};
+});
+
+sessions.post('/current', passport.authenticate('register'), async (req, res) => {
+	try {
+		req.session.user = {
+			first_name: req.user.first_name,
+			last_name: req.user.last_name,
+			email: req.user.email,
+			role: req.user.role,
+		};
+		return res
+			.status(200)
+			.send({ status: 'success', response: 'User created' });
+	} catch (err) {
+		return res.status(500).json({ status: 'error', response: err.message });
+	}
 });
 
 // Endpoint para desloguearse:
