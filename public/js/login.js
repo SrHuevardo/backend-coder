@@ -12,7 +12,12 @@ loginForm.addEventListener("submit", async (e) => {
 		headers: {
 			"Content-Type": "application/json",
 		},
-	}).then(() => {
-		window.location.replace("/");
+	}).then(res => {
+		if (res.status !== 200) {
+			alert(`Invalid credentials`);
+		} else {
+			alert(`Loged`);
+			window.location.replace("/");
+		};
 	}).catch(err => {return `Catch error: ${err}`});
 });

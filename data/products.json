@@ -1,9 +1,0 @@
-[
-    {"title":"Manga 1","description":"pruductqwewqeo nuevo dd","code":"pruductqwewqeo nuevo as","price":1001,"status":true,"stock":211,"category":"asdaswqqwed","id":2},
-    {"title":"Manga 2","description":"12","code":"1","price":10,"status":true,"stock":522,"category":"asdaswd","id":3},
-    {"title":"Jueguito 1","description":" nuevo dd","code":" nuevo as","price":21,"status":true,"stock":2,"category":"a","id":4},
-    {"title":"Jueguito 2","description":" nuevo producto X","code":" codigoX1","price":666,"status":true,"stock":23,"category":"Producto A","id":5},
-    {"title":"Auricular 1","description":" nuevo producto Xx","code":" codigoX12","price":66,"status":true,"stock":233,"category":"Producto B","id":6},
-    {"title":"Auricular 2","description":"producto audio","code":"66654321","price":2055,"status":true,"stock":80,"category":"Producto E","id":7},
-    {"title":"Auricular 3","description":"producto audio 3","code":"666543211","price":205,"status":true,"stock":801,"category":"Producto Q","id":8}
-]

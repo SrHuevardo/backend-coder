@@ -8,15 +8,15 @@ registerForm.addEventListener("submit", async (event) => {
 
 	await fetch("/api/sessions/register", {
 		method: "POST",
-		body: JSON.stringify(obj),
 		headers: {
 			"Content-Type": "application/json",
 		},
+		body: JSON.stringify(obj)
 	}).then(res => {
-		if (res.status === 401) {
-			alert(`Email already exist`);
+		if (res.status !== 200) {
+			alert(`Invalid credentials`);
 		} else {
-			alert(`User created`);
+			alert(`Created`);
 			window.location.replace("/");
 		};
 	}).catch(err => {return `Catch error: ${err}`});

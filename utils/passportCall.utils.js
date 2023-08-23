@@ -7,8 +7,6 @@ const passportCall = (strategy) => {
 				return next(err);
 			}
 
-			console.log("Passport call - User", user);
-
 			if (!user) {
 				return res.status(401).json({
 					error: info.messages ? info.messages : info.toString(),

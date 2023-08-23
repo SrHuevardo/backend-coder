@@ -1,22 +1,21 @@
+import { userModel } from '../dao/mongo/models/user.model.js';
+import { adminModel } from '../dao/mongo/models/admin.model.js';
+import { createHash, isValidPassword } from '../utils/hash.utils.js';
+import cookieExtractor from '../utils/cookieExtractor.utils.js';
+import config from '../config/enviroment.config.js';
 import passport from 'passport';
 import local from 'passport-local';
-import GitHubStrategy from "passport-github2";
-import { userModel } from '../dao/mongo/models/user.model.js';
-import { createHash, isValidPassword } from '../utils/hash.utils.js';
-import { adminModel } from '../dao/mongo/models/admin.model.js';
-import cookieExtractor from '../utils/cookie.Extractor.utils.js';
+import GitHubStrategy from 'passport-github2';
 import jwt from 'passport-jwt';
 
-
-// Env
-import config from '../config.js'
+// Enviroment
 const jwtSecret = config.JWT_SECRET;
 const githubClientId = config.GITHUB_CLIENT_ID;
 const githubClientSecret = config.GITHUB_CLIENT_SECRET;
 const githubCallbackUrl = config.GITHUB_CALLBACK_URL;
 
+// Strategies
 const LocalStrategy = local.Strategy;
-
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
@@ -140,10 +139,10 @@ const initializePassport = () => {
 						return done(null, result);
 					} else {
 						done(null, user);
-					};
+					}
 				} catch (err) {
 					return done('Error:', err);
-				};
+				}
 			}
 		)
 	);
