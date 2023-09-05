@@ -1,20 +1,24 @@
 import { Router } from 'express';
 import {
+	home,
 	login,
 	register,
-	current,
-	logout,
-	github,
-	githubCallback,
-} from '../controllers/sessions.controller.js';
+	chat,
+	products,
+	product,
+	cart,
+} from '../controllers/views.controller.js';
+
+import roleAuth from '../middlewares/role.middleware.js';
 
 const router = Router();
 
-router.post('/login', login);
-router.post('/register', register);
-router.get('/current', current);
-router.get('/github', github);
-router.get('/githubCallback', githubCallback);
-router.post('/logout', logout);
+router.get('/', home);
+router.get('/login', login);
+router.get('/register', register);
+router.get('/chat', roleAuth('user'), chat);
+router.get('/products', products);
+router.get('/product/:pid', product);
+router.get('/cart/:cid', cart);
 
 export default router;
