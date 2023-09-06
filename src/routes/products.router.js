@@ -5,6 +5,7 @@ import {
 	insertProduct,
 	editProduct,
 	eraseProduct,
+	mockingProducts,
 } from '../controllers/products.controller.js';
 
 import roleAuth from '../middlewares/role.middleware.js';
@@ -16,5 +17,6 @@ router.get('/:pid', product);
 router.post('/', roleAuth('admin'), insertProduct);
 router.put('/:pid', roleAuth('admin'), editProduct);
 router.delete('/:pid', roleAuth('admin'), eraseProduct);
+router.post('/mockingproducts', roleAuth('admin'), mockingProducts);
 
 export default router;

@@ -1,3 +1,5 @@
+import logger from "../../utils/logger.util.js";
+
 const productsForm = document.querySelectorAll('.product-form');
 
 productsForm.forEach((productForm) => {
@@ -12,6 +14,6 @@ productsForm.forEach((productForm) => {
 				if (res.status !== 200) return;
 				alert('Added');
 			})
-			.catch(err => console.log(err))
+			.catch(err => logger.error(`Catch error: ${err}`))
 	});
 });

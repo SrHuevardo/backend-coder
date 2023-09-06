@@ -6,8 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "SET NODE_ENV=production && nodemon ./src/app.js",
     "start:local": "SET NODE_ENV=local && nodemon ./src/app.js",
-    "start:development": "SET NODE_ENV=development && nodemon ./src/app.js"
+    "start:development": "SET NODE_ENV=development && nodemon ./src/app.js",
+    "format": "prettier --write \"**/*.js\""
   },
   "keywords": [],
   "author": "",
@@ -34,6 +36,7 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "socket.io": "^4.6.2",
-    "twilio": "^4.16.0"
+    "twilio": "^4.16.0",
+    "winston": "^3.10.0"
   }
 }

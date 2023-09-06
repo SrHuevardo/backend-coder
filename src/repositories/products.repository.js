@@ -66,6 +66,14 @@ class ProductsRepository {
 			return `${error}`;
 		}
 	}
+
+	async generateProducts() {
+		try {
+			return await this.dao.generateProductsDao();
+		} catch (error) {
+			return `${error}`;
+		}
+	}
 }
 
 export default ProductsRepository;

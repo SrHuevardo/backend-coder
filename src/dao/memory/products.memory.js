@@ -77,6 +77,15 @@ class ProductsMemoryDAO {
 			return `${error}`;
 		}
 	}
+
+	async generateProductsDao() {
+		try {
+
+			return products;
+		} catch (error) {
+			return `${error}`;
+		}
+	}
 }
 
 const MemoryDAO = new ProductsMemoryDAO();
