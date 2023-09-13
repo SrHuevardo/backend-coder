@@ -4,6 +4,7 @@ import { ticketModel } from './models/ticket.model.js';
 import { getAmount } from './../../utils/functions.utils.js';
 import UserDTO from '../../dto/user.dto.js';
 import sendEmail from '../../utils/email.utils.js';
+import sendMessage from '../../utils/message.utils.js';
 import logger from '../../utils/logger.util.js';
 
 class CartsMongoDAO {
@@ -252,6 +253,7 @@ class CartsMongoDAO {
 			};
 
 			await sendEmail(ticket);
+			await sendMessage(ticket);
 			const createdTicket = await ticketModel.create(ticket);
 			if (!createdTicket)
 				return `The following products could not be purchased: ${products}`;

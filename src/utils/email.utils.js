@@ -33,6 +33,7 @@ const sendEmail = async (ticket) => {
 		};
 
 		await transporter.sendMail(emailContent);
+		return;
 	} catch (error) {
 		return `${error}`
 	}
