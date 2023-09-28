@@ -1,0 +1,25 @@
+paths:
+  /api/tests/logs:
+    get:
+      summary: Test all logs levels
+      tags:
+        - Tests
+      responses:
+        "200":
+          description: Show all logs levels in console.
+  /api/tests/operation/simple:
+    get:
+      summary: Simple operation
+      tags:
+        - Tests
+      responses:
+        "200":
+          description: Show simple operation result.
+  /api/tests/operation/complex:
+    get:
+      summary: Complex operation
+      tags:
+        - Tests
+      responses:
+        "200":
+          description: Show complex operation result.

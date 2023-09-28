@@ -13,12 +13,27 @@ import setupSocket from './utils/socket.utils.js';
 import config from './config/environment.config.js';
 import initializePassport from './config/passport.config.js';
 import logger from './utils/logger.util.js';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 const mongoUrl = config.MONGO_URL;
 const mongoSessionSecret = config.MONGO_URL;
 const cookieSecret = config.COOKIE_SECRET;
 const PORT = config.PORT;
 const HOST = config.HOST;
+
+const swaggerOptions = {
+	definition: {
+		openaip: '1.0.0',
+		info: {
+			title: 'API documentation',
+			version: "1.0.0",
+			description: 'Backend server in charge of managing: Products, Carts, Users, Messages, Sessions, Tickets and Views. It is designed to provide a robust and secure service that allows customers to interact efficiently and securely with our platform. Technologies Used: Javascript, HTML, CSS, Mongo, Mongoose, Faker, Bcrypt, Dotenv, Cors, Cookie-parser, Express, Handlebars, Morgan, Nodemailer, Nodemon, Passport, Socket, Swagger, Twilio, Winston, among others.'
+		},
+	},
+	apis: [`${__dirname}/docs/*.yaml`],
+};
+const specs = swaggerJSDoc(swaggerOptions);
 
 const initializeApp = () => {
 	const app = express();
@@ -51,6 +66,7 @@ const initializeApp = () => {
 	app.use(cookieParser(cookieSecret));
 	app.use(morgan('dev'));
 	app.use(cors());
+	app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 	const httpServer = app.listen(PORT, HOST, () => {
 		logger.info(`Server up on http://${HOST}:${PORT}`);

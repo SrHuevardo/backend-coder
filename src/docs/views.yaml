@@ -1,0 +1,97 @@
+paths:
+  /:
+    get:
+      summary: Home
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Show home view.
+        "404":
+          description: Show error message.
+        "500":
+          description: Server error.
+  /login:
+    get:
+      summary: Login
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Show login view.
+        "404":
+          description: Show error message.
+        "500":
+          description: Server error.
+  /register:
+    get:
+      summary: Register
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Show register view.
+        "404":
+          description: Show error message.
+        "500":
+          description: Server error.
+  /chat:
+    get:
+      summary: Chat
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Show chat view.
+        "404":
+          description: Show error message.
+        "500":
+          description: Server error.
+  /products:
+    get:
+      summary: Products
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Show products view.
+        "404":
+          description: Show error message.
+        "500":
+          description: Server error.
+  /product/:pid:
+    get:
+      summary: Product by ID
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Show product view.
+        "404":
+          description: Show error message.
+        "500":
+          description: Server error.
+  /cart/:cid:
+    get:
+      summary: Cart by ID
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Show cart view.
+        "404":
+          description: Show error message.
+        "500":
+          description: Server error.
+  /restore:
+    get:
+      summary: Restore
+      tags:
+        - Views
+      responses:
+        "200":
+          description: Show restore view.
+        "404":
+          description: Show error message.
+        "500":
+          description: Server error.
